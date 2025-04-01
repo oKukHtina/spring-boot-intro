@@ -1,10 +1,10 @@
 package com.example.service;
 
-import com.example.entity.BookEntity;
+import com.example.entity.Book;
 import java.util.List;
 
 public interface BookService {
-    BookEntity save(BookEntity bookEntity);
+    Book save(Book bookEntity);
 
-    List<BookEntity> findAll();
+    List<Book> findAll();
 }

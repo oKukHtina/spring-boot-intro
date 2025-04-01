@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.entity.BookEntity;
+import com.example.entity.Book;
 import com.example.service.BookService;
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +24,14 @@ public class SpringBootIntroApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        BookEntity bookEntity = new BookEntity();
+        Book bookEntity = new Book();
         bookEntity.setTitle("Book 1");
         bookEntity.setAuthor("Author 1");
         bookEntity.setPrice(BigDecimal.ZERO);
         bookEntity.setDescription("sadasdad");
         bookEntity.setIsbn("123");
         bookEntity.setCoverImage("sd");
-        BookEntity save = bookService.save(bookEntity);
+        Book save = bookService.save(bookEntity);
         System.out.println(save);
 
         bookService.findAll().forEach(System.out::println);
