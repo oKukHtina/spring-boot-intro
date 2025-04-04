@@ -34,17 +34,4 @@ public class Book {
     private String coverImage;
 
     private String description;
-
-    @Override
-    public String toString() {
-        return "BookEntity{"
-                + "id=" + id
-                + ", title='" + title + '\''
-                + ", author='" + author + '\''
-                + ", isbn='" + isbn + '\''
-                + ", price=" + price
-                + ", description='" + description + '\''
-                + ", coverImage='" + coverImage + '\''
-                + '}';
-    }
 }

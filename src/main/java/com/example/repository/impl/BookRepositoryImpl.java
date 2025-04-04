@@ -1,6 +1,7 @@
 package com.example.repository.impl;
 
 import com.example.entity.Book;
+import com.example.exception.DataProcessingException;
 import com.example.repository.BookRepository;
 import java.util.List;
 import org.hibernate.Session;
@@ -31,7 +32,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't save a book:  " + book, e);
+            throw new DataProcessingException("Can't save a book:  " + book, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -45,7 +46,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("from Book", Book.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to find all books " + e);
+            throw new DataProcessingException("Failed to find all books " + e);
         }
     }
 }
