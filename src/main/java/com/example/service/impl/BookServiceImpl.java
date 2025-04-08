@@ -7,7 +7,6 @@ import com.example.entity.Book;
 import com.example.repository.BookRepository;
 import com.example.service.BookService;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,25 +14,26 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
     @Override
     public BookDto save(CreateBookRequestDto bookRequestDto) {
-        Book model = BookMapper.INSTANCE.toModel(bookRequestDto);
+        Book model = bookMapper.toModel(bookRequestDto);
         Book savedBook = bookRepository.save(model);
-        return BookMapper.INSTANCE.toDto(savedBook);
+        return bookMapper.toDto(savedBook);
     }
 
     @Override
     public List<BookDto> findAll() {
         return bookRepository.findAll().stream()
-                .map(BookMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
+                .map(bookMapper::toDto)
+                .toList();
     }
 
     @Override
     public BookDto getBookById(Long id) {
         Book bookById = bookRepository.getBookById(id);
-        return BookMapper.INSTANCE.toDto(bookById);
+        return bookMapper.toDto(bookById);
     }
 
 }
