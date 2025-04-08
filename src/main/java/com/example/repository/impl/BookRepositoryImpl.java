@@ -49,4 +49,17 @@ public class BookRepositoryImpl implements BookRepository {
             throw new DataProcessingException("Failed to find all books " + e);
         }
     }
+
+    @Override
+    public Book getBookById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery(
+                            "from Book "
+                                    + "where id =:id", Book.class)
+                    .setParameter("id", id)
+                    .uniqueResult();
+        } catch (Exception e) {
+            throw new DataProcessingException("Entity with id: " + id + " not found");
+        }
+    }
 }
