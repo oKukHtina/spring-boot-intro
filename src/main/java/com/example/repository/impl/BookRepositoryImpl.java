@@ -2,7 +2,6 @@ package com.example.repository.impl;
 
 import com.example.entity.Book;
 import com.example.exception.DataProcessingException;
-import com.example.exception.EntityNotFoundException;
 import com.example.repository.BookRepository;
 import java.util.List;
 import org.hibernate.Session;
@@ -60,7 +59,7 @@ public class BookRepositoryImpl implements BookRepository {
                     .setParameter("id", id)
                     .uniqueResult();
         } catch (Exception e) {
-            throw new EntityNotFoundException("Entity with id: " + id + " not found");
+            throw new DataProcessingException("Entity with id: " + id + " not found");
         }
     }
 }
