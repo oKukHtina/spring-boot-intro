@@ -1,10 +1,8 @@
 package com.example.repository;
 
 import com.example.entity.Book;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface BookRepository {
-    Book save(Book book);
-
-    List<Book> findAll();
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 }
