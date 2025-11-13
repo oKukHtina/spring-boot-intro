@@ -4,6 +4,7 @@ import com.example.dto.BookDto;
 import com.example.dto.BookSearchParametersDto;
 import com.example.dto.CreateBookRequestDto;
 import com.example.service.BookService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,29 +30,40 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public BookDto getBookById(@PathVariable Long id) {
+    public BookDto getBookById(
+            @PathVariable Long id
+    ) {
         return bookService.getBookById(id);
     }
 
     @GetMapping("/search")
-    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+    public List<BookDto> searchBooks(
+            BookSearchParametersDto searchParameters
+    ) {
         return bookService.search(searchParameters);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
+    public BookDto createBook(
+            @RequestBody @Valid CreateBookRequestDto bookDto
+    ) {
         return bookService.save(bookDto);
     }
 
     @PutMapping("/{id}")
-    public BookDto updateBook(@PathVariable Long id, @RequestBody CreateBookRequestDto bookDto) {
+    public BookDto updateBook(
+            @PathVariable Long id,
+            @RequestBody @Valid CreateBookRequestDto bookDto
+    ) {
         return bookService.updateBook(id, bookDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteBookById(@PathVariable Long id) {
+    public void deleteBookById(
+            @PathVariable Long id
+    ) {
         bookService.deleteById(id);
     }
 }
