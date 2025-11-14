@@ -1,6 +1,7 @@
 package com.example.repository.specification.impl;
 
 import com.example.entity.Book;
+import com.example.exception.InvalidProviderException;
 import com.example.repository.specification.SpecificationProvider;
 import com.example.repository.specification.SpecificationProviderManager;
 import java.util.List;
@@ -18,7 +19,7 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
                 .filter(p -> p.getKey().equals(key))
                 .findFirst()
                 .orElseThrow(
-                        () -> new RuntimeException(
+                        () -> new InvalidProviderException(
                         "Can't find correct specification provider or key" + key
                         )
                 );

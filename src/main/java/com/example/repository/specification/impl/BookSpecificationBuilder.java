@@ -5,8 +5,11 @@ import static com.example.constants.ApplicationConstant.TITLE_KEY;
 
 import com.example.dto.BookSearchParametersDto;
 import com.example.entity.Book;
+import com.example.exception.InvalidProviderException;
 import com.example.repository.specification.SpecificationBuilder;
 import com.example.repository.specification.SpecificationProviderManager;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,20 +23,28 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
 
     @Override
     public Specification<Book> build(BookSearchParametersDto params) {
-        Specification<Book> spec = Specification.where(null);
+        List<Specification<Book>> specs = new ArrayList<>();
 
         if (ArrayUtils.isNotEmpty(params.authors())) {
-            spec = spec.and(specificationProviderManager
+            specs.add(specificationProviderManager
                     .getSpecificationProvider(AUTHOR_KEY)
                     .getSpecification(params.authors()));
         }
 
         if (ArrayUtils.isNotEmpty(params.titles())) {
-            spec = spec.and(specificationProviderManager
+            specs.add(specificationProviderManager
                     .getSpecificationProvider(TITLE_KEY)
                     .getSpecification(params.titles()));
         }
 
-        return spec;
+        if (specs.isEmpty()) {
+            throw new InvalidProviderException(
+                    "Invalid search parameter. Allowed: 'authors', 'titles'."
+            );
+        }
+
+        return specs.stream()
+                .reduce(Specification::and)
+                .orElseThrow(() -> new InvalidProviderException("No valid specification found"));
     }
 }
