@@ -4,11 +4,13 @@ import com.example.dto.BookDto;
 import com.example.dto.BookSearchParametersDto;
 import com.example.dto.CreateBookRequestDto;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
     BookDto save(CreateBookRequestDto bookRequestDto);
 
-    List<BookDto> findAll();
+    Page<BookDto> findAll(Pageable pageable);
 
     BookDto getBookById(Long id);
 
