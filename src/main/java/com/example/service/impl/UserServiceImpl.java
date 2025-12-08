@@ -19,12 +19,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto register(UserRegistrationRequestDto userRequestDto) {
         if (userRepository.existsByEmail(userRequestDto.getEmail())) {
-            throw new RegistrationException("Email is already exists");
+            throw new RegistrationException(
+                    "Email already exists: " + maskEmail(userRequestDto.getEmail())
+            );
         }
 
         User user = userMapper.toEntity(userRequestDto);
         userRepository.save(user);
 
         return userMapper.toDto(user);
+    }
+
+    private String maskEmail(String email) {
+        return email.replaceAll("(?<=.).(?=.*@)", "*");
     }
 }
