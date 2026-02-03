@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-admin-user
+      author: olyak
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: admin@example.com }
+              - column: { name: password, value: "$2a$10$1Y9/ChNGnqTORUCPdyBbheAduWN97NjChMPzaEhHEjHOO5wDoFdaS" }
+              - column: { name: first_name, value: Admin }
+              - column: { name: last_name, value: User }
+              - column: { name: is_deleted, valueBoolean: false }
