@@ -5,4 +5,8 @@ public class ApplicationConstant {
     public static final String TITLE_KEY = "title";
     public static final String TITLE_PATTERN = "^[A-ZА-Я][A-Za-zА-Яа-я0-9\\s'.,!?-]{2,99}$";
     public static final String ISBN_PATTERN = "^\\d{3}-\\d{10}$";
+    public static final String JWT_SECRET = "${jwt.secret}";
+    public static final String JWT_EXPIRATION = "${jwt.expiration}";
+    public static final String BEARER_AUTHORIZATION = "Bearer ";
+    public static final String HEADER = "Authorization";
 }
