@@ -1,8 +1,11 @@
 package com.example.controller;
 
+import com.example.dto.UserLoginRequestDto;
+import com.example.dto.UserLoginResponseDto;
 import com.example.dto.UserRegistrationRequestDto;
 import com.example.dto.UserResponseDto;
 import com.example.exception.RegistrationException;
+import com.example.security.AuthenticationService;
 import com.example.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +24,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final UserService userService;
+    private final AuthenticationService authenticationService;
+
+    @Operation(
+            summary = "Login user",
+            description = "Allows to login user in the system"
+    )
+    @PostMapping("/login")
+    public UserLoginResponseDto login(
+            @RequestBody @Valid UserLoginRequestDto requestDto
+    ) {
+        return authenticationService.login(requestDto);
+    }
 
     @Operation(
             summary = "Register a new user",
