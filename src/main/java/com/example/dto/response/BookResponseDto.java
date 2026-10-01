@@ -1,10 +1,11 @@
-package com.example.dto;
+package com.example.dto.response;
 
 import java.math.BigDecimal;
+import java.util.List;
 import lombok.Data;
 
 @Data
-public class BookDto {
+public class BookResponseDto {
     private Long id;
     private String title;
     private String author;
@@ -12,4 +13,5 @@ public class BookDto {
     private BigDecimal price;
     private String coverImage;
     private String description;
+    private List<Long> categoryIds;
 }

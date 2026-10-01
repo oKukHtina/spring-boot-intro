@@ -1,11 +1,11 @@
 package com.example.service.impl;
 
-import com.example.dto.UserRegistrationRequestDto;
-import com.example.dto.UserResponseDto;
-import com.example.dto.mapping.UserMapper;
+import com.example.dto.request.UserRegistrationRequestDto;
+import com.example.dto.response.UserResponseDto;
 import com.example.entity.Role;
 import com.example.entity.User;
 import com.example.exception.RegistrationException;
+import com.example.mapper.UserMapper;
 import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
 import com.example.service.UserService;
