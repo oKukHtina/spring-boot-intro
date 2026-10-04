@@ -1,12 +1,11 @@
 package com.example.service.impl;
 
-import com.example.dto.request.BookSearchParametersDto;
-import com.example.dto.request.CreateBookRequestDto;
-import com.example.dto.response.BookResponseDto;
-import com.example.dto.response.BookResponseDtoWithoutCategoryIds;
+import com.example.config.dto.request.BookSearchParametersDto;
+import com.example.config.dto.request.CreateBookRequestDto;
+import com.example.config.dto.response.BookResponseDto;
+import com.example.config.dto.response.BookResponseDtoWithoutCategoryIds;
 import com.example.entity.Book;
 import com.example.entity.Category;
-import com.example.exception.CategoryNotFoundException;
 import com.example.mapper.BookMapper;
 import com.example.repository.BookRepository;
 import com.example.repository.CategoryRepository;
@@ -21,8 +20,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
@@ -32,12 +33,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto save(CreateBookRequestDto bookRequestDto) {
-        Book model = bookMapper.toModel(bookRequestDto);
+        Book book = bookMapper.toModel(bookRequestDto);
         Set<Category> categories = findCategoriesByIds(bookRequestDto.getCategoryIds());
-        model.setCategories(categories);
+        book.setCategories(categories);
 
-        bookRepository.save(model);
-        return bookMapper.toDto(model);
+        bookRepository.save(book);
+        return bookMapper.toDto(book);
     }
 
     @Override
@@ -53,13 +54,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto updateBook(Long id, CreateBookRequestDto bookDto) {
-        Book foundedBook = findBookById(id);
+        Book book = findBookById(id);
         Set<Category> categories = findCategoriesByIds(bookDto.getCategoryIds());
 
-        bookMapper.updateBookFromDto(bookDto, foundedBook);
-        foundedBook.setCategories(categories);
+        bookMapper.updateBookFromDto(bookDto, book);
+        book.setCategories(categories);
 
-        return bookMapper.toDto(bookRepository.save(foundedBook));
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
@@ -74,7 +75,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(Long id) {
-        bookRepository.delete(findBookById(id));
+        if (!bookRepository.existsById(id)) {
+            throw new EntityNotFoundException(
+                    "Book was not found by id : " + id
+            );
+        }
+
+        bookRepository.deleteById(id);
     }
 
     @Override
@@ -83,7 +90,7 @@ public class BookServiceImpl implements BookService {
             Pageable pageable
     ) {
         categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(
+                .orElseThrow(() -> new EntityNotFoundException(
                         "Category was not found by id : " + id
                 ));
 
@@ -95,7 +102,7 @@ public class BookServiceImpl implements BookService {
         List<Category> categories = categoryRepository.findAllById(categoryIds);
 
         if (categories.size() != categoryIds.size()) {
-            throw new CategoryNotFoundException(
+            throw new EntityNotFoundException(
                     "One or more categories were not found"
             );
         }

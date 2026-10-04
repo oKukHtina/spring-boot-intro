@@ -1,7 +1,7 @@
 package com.example.service.impl;
 
-import com.example.dto.request.UserRegistrationRequestDto;
-import com.example.dto.response.UserResponseDto;
+import com.example.config.dto.request.UserRegistrationRequestDto;
+import com.example.config.dto.response.UserResponseDto;
 import com.example.entity.Role;
 import com.example.entity.User;
 import com.example.exception.RegistrationException;

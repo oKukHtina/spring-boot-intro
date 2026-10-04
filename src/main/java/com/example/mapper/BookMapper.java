@@ -1,8 +1,8 @@
 package com.example.mapper;
 
-import com.example.dto.request.CreateBookRequestDto;
-import com.example.dto.response.BookResponseDto;
-import com.example.dto.response.BookResponseDtoWithoutCategoryIds;
+import com.example.config.dto.request.CreateBookRequestDto;
+import com.example.config.dto.response.BookResponseDto;
+import com.example.config.dto.response.BookResponseDtoWithoutCategoryIds;
 import com.example.entity.Book;
 import com.example.entity.Category;
 import java.util.List;

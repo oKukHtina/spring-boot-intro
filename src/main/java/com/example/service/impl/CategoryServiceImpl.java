@@ -1,18 +1,20 @@
 package com.example.service.impl;
 
-import com.example.dto.request.CategoryRequestDto;
-import com.example.dto.response.CategoryResponseDto;
+import com.example.config.dto.request.CategoryRequestDto;
+import com.example.config.dto.response.CategoryResponseDto;
 import com.example.entity.Category;
-import com.example.exception.CategoryNotFoundException;
 import com.example.mapper.CategoryMapper;
 import com.example.repository.CategoryRepository;
 import com.example.service.CategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
@@ -47,12 +49,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteById(Long id) {
-        categoryRepository.delete(findCategoryById(id));
+        if (!categoryRepository.existsById(id)) {
+            throw new EntityNotFoundException(
+                    "Category was not found by id : " + id
+            );
+        }
+
+        categoryRepository.deleteById(id);
     }
 
     private Category findCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(
+                .orElseThrow(() -> new EntityNotFoundException(
                         "Category was not found by id : " + id
                 ));
     }

@@ -1,4 +1,4 @@
-package com.example.dto.response;
+package com.example.config.dto.response;
 
 public record CategoryResponseDto(
         Long id,

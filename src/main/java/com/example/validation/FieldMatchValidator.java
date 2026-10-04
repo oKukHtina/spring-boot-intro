@@ -1,6 +1,6 @@
 package com.example.validation;
 
-import com.example.dto.request.UserRegistrationRequestDto;
+import com.example.config.dto.request.UserRegistrationRequestDto;
 import com.example.validation.annotation.FieldMatch;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
