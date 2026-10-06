@@ -1,11 +1,13 @@
-package com.example.dto;
+package com.example.config.dto.request;
 
 import com.example.validation.annotation.Isbn;
 import com.example.validation.annotation.Price;
 import com.example.validation.annotation.Title;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 import lombok.Data;
 
 @Data
@@ -30,4 +32,7 @@ public class CreateBookRequestDto {
 
     @NotBlank(message = "Description cannot be blank")
     private String description;
+
+    @NotEmpty(message = "Categories cannot be empty")
+    private List<Long> categoryIds;
 }

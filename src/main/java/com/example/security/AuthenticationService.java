@@ -1,7 +1,7 @@
 package com.example.security;
 
-import com.example.dto.UserLoginRequestDto;
-import com.example.dto.UserLoginResponseDto;
+import com.example.config.dto.request.UserLoginRequestDto;
+import com.example.config.dto.response.UserLoginResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

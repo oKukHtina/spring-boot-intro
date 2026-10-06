@@ -8,7 +8,7 @@ Return and accept DTOs on the service layer
 Add BookController with methods:
 public List getAll()
 public BookDto getBookById(Long id)
-public BookDto createBook(CreateBookRequestDto bookDto)
+public BookDto createBook(CreateBookRequestDto bookResponseDto)
 
 Add missing methods in the BookService and BookRepository
 
