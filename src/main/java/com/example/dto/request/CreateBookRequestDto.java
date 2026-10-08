@@ -1,4 +1,4 @@
-package com.example.config.dto.request;
+package com.example.dto.request;
 
 import com.example.validation.annotation.Isbn;
 import com.example.validation.annotation.Price;

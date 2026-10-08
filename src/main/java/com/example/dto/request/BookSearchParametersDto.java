@@ -1,4 +1,4 @@
-package com.example.config.dto.request;
+package com.example.dto.request;
 
 public record BookSearchParametersDto(String[] authors, String[] titles) {
 }
