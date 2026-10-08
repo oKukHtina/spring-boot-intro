@@ -1,12 +1,14 @@
 package com.example.service.impl;
 
-import com.example.config.dto.request.UserRegistrationRequestDto;
-import com.example.config.dto.response.UserResponseDto;
+import com.example.dto.request.UserRegistrationRequestDto;
+import com.example.dto.response.UserResponseDto;
 import com.example.entity.Role;
+import com.example.entity.ShoppingCart;
 import com.example.entity.User;
 import com.example.exception.RegistrationException;
 import com.example.mapper.UserMapper;
 import com.example.repository.RoleRepository;
+import com.example.repository.ShoppingCartRepository;
 import com.example.repository.UserRepository;
 import com.example.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto userRequestDto)
@@ -40,6 +43,10 @@ public class UserServiceImpl implements UserService {
                 );
         user.getRoles().add(userRole);
         userRepository.save(user);
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCartRepository.save(shoppingCart);
 
         return userMapper.toDto(user);
     }

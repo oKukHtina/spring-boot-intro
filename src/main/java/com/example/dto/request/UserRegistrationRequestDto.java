@@ -1,4 +1,4 @@
-package com.example.config.dto.request;
+package com.example.dto.request;
 
 import com.example.validation.annotation.FieldMatch;
 import jakarta.validation.constraints.Email;

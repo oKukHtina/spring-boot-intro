@@ -1,8 +1,8 @@
 package com.example.controller;
 
-import com.example.config.dto.request.BookSearchParametersDto;
-import com.example.config.dto.request.CreateBookRequestDto;
-import com.example.config.dto.response.BookResponseDto;
+import com.example.dto.request.BookSearchParametersDto;
+import com.example.dto.request.CreateBookRequestDto;
+import com.example.dto.response.BookResponseDto;
 import com.example.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,9 +1,9 @@
 package com.example.service.impl;
 
-import com.example.config.dto.request.BookSearchParametersDto;
-import com.example.config.dto.request.CreateBookRequestDto;
-import com.example.config.dto.response.BookResponseDto;
-import com.example.config.dto.response.BookResponseDtoWithoutCategoryIds;
+import com.example.dto.request.BookSearchParametersDto;
+import com.example.dto.request.CreateBookRequestDto;
+import com.example.dto.response.BookResponseDto;
+import com.example.dto.response.BookResponseDtoWithoutCategoryIds;
 import com.example.entity.Book;
 import com.example.entity.Category;
 import com.example.mapper.BookMapper;

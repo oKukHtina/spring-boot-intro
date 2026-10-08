@@ -1,7 +1,7 @@
 package com.example.service;
 
-import com.example.config.dto.request.CategoryRequestDto;
-import com.example.config.dto.response.CategoryResponseDto;
+import com.example.dto.request.CategoryRequestDto;
+import com.example.dto.response.CategoryResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
