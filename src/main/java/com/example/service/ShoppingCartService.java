@@ -2,19 +2,21 @@ package com.example.service;
 
 import com.example.dto.request.CartItemRequestDto;
 import com.example.dto.request.QuantityCartItemRequestDto;
-import com.example.dto.response.CartItemResponseDto;
 import com.example.dto.response.ShoppingCartResponseDto;
+import com.example.entity.User;
 
 public interface ShoppingCartService {
     ShoppingCartResponseDto getCart();
 
-    CartItemResponseDto save(CartItemRequestDto cartItemRequestDto);
+    ShoppingCartResponseDto save(CartItemRequestDto cartItemRequestDto);
 
-    CartItemResponseDto update(
+    ShoppingCartResponseDto update(
             Long cartItemId,
             QuantityCartItemRequestDto quantityCartItemRequestDto
     );
 
     void deleteById(Long id);
+
+    void createShoppingCart(User user);
 
 }

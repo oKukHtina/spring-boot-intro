@@ -1,13 +1,14 @@
 package com.example.dto.request;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record CartItemRequestDto(
         @NotNull(message = "Book id cannot be null")
+        @Positive(message = "Book id must be positive")
         Long bookId,
 
-        @Min(value = 1, message = "Quantity must be at least 1")
+        @Positive(message = "Quantity must be positive")
         int quantity
 ) {
 }

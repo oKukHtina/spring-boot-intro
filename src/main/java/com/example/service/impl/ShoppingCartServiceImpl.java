@@ -2,13 +2,11 @@ package com.example.service.impl;
 
 import com.example.dto.request.CartItemRequestDto;
 import com.example.dto.request.QuantityCartItemRequestDto;
-import com.example.dto.response.CartItemResponseDto;
 import com.example.dto.response.ShoppingCartResponseDto;
 import com.example.entity.Book;
 import com.example.entity.CartItem;
 import com.example.entity.ShoppingCart;
 import com.example.entity.User;
-import com.example.mapper.CartItemMapper;
 import com.example.mapper.ShoppingCartMapper;
 import com.example.repository.BookRepository;
 import com.example.repository.CartItemRepository;
@@ -19,15 +17,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final CartItemRepository cartItemRepository;
     private final BookRepository bookRepository;
     private final ShoppingCartMapper mapper;
-    private final CartItemMapper cartItemMapper;
 
     @Override
     public ShoppingCartResponseDto getCart() {
@@ -37,7 +36,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public CartItemResponseDto save(CartItemRequestDto cartItemRequestDto) {
+    public ShoppingCartResponseDto save(CartItemRequestDto cartItemRequestDto) {
         ShoppingCart shoppingCart = getCurrentUserCart();
 
         Book book = bookRepository.findById(cartItemRequestDto.bookId())
@@ -54,6 +53,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                     CartItem newCartItem = new CartItem();
                     newCartItem.setShoppingCart(shoppingCart);
                     newCartItem.setBook(book);
+                    shoppingCart.getCartItems().add(newCartItem);
                     return newCartItem;
                 });
 
@@ -61,13 +61,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 cartItem.getQuantity() + cartItemRequestDto.quantity()
         );
 
-        CartItem savedCartItem = cartItemRepository.save(cartItem);
+        cartItemRepository.save(cartItem);
 
-        return cartItemMapper.toDto(savedCartItem);
+        return mapper.toDto(shoppingCart);
     }
 
     @Override
-    public CartItemResponseDto update(
+    public ShoppingCartResponseDto update(
             Long cartItemId,
             QuantityCartItemRequestDto quantityCartItemRequestDto
     ) {
@@ -82,8 +82,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 );
 
         cartItem.setQuantity(quantityCartItemRequestDto.quantity());
+        cartItemRepository.save(cartItem);
 
-        return cartItemMapper.toDto(cartItemRepository.save(cartItem));
+        return mapper.toDto(shoppingCart);
     }
 
     @Override
@@ -100,6 +101,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
 
         cartItemRepository.deleteById(id);
+    }
+
+    @Override
+    public void createShoppingCart(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+
+        shoppingCartRepository.save(shoppingCart);
     }
 
     private User getCurrentUser() {

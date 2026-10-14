@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.dto.request.CartItemRequestDto;
 import com.example.dto.request.QuantityCartItemRequestDto;
-import com.example.dto.response.CartItemResponseDto;
 import com.example.dto.response.ShoppingCartResponseDto;
 import com.example.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +34,7 @@ public class ShoppingCartController {
             description = "Add book to the shopping cart"
     )
     @ResponseStatus(HttpStatus.CREATED)
-    CartItemResponseDto createCartItem(
+    public ShoppingCartResponseDto createCartItem(
             @RequestBody @Valid CartItemRequestDto cartItemRequestDto
     ) {
         return shoppingCartService.save(cartItemRequestDto);
@@ -47,7 +46,7 @@ public class ShoppingCartController {
             summary = "Get shopping cart",
             description = "Retrieve user's shopping cart"
     )
-    ShoppingCartResponseDto getShoppingCart() {
+    public ShoppingCartResponseDto getShoppingCart() {
         return shoppingCartService.getCart();
     }
 
@@ -57,7 +56,7 @@ public class ShoppingCartController {
             summary = "Update quantity of a book",
             description = "Update quantity of a book in the shopping cart"
     )
-    CartItemResponseDto updateCartItem(
+    public ShoppingCartResponseDto updateCartItem(
             @PathVariable Long id,
             @RequestBody @Valid QuantityCartItemRequestDto quantityCartItemRequestDto
     ) {
@@ -71,7 +70,7 @@ public class ShoppingCartController {
             description = "Remove a book from the shopping cart"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteCartItem(@PathVariable Long id) {
+    public void deleteCartItem(@PathVariable Long id) {
         shoppingCartService.deleteById(id);
     }
 }
