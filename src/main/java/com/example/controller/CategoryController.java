@@ -1,11 +1,12 @@
 package com.example.controller;
 
-import com.example.config.dto.request.CategoryRequestDto;
-import com.example.config.dto.response.BookResponseDtoWithoutCategoryIds;
-import com.example.config.dto.response.CategoryResponseDto;
+import com.example.dto.request.CategoryRequestDto;
+import com.example.dto.response.BookResponseDtoWithoutCategoryIds;
+import com.example.dto.response.CategoryResponseDto;
 import com.example.service.BookService;
 import com.example.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Categories management", description = "Endpoints for managing categories")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/categories")

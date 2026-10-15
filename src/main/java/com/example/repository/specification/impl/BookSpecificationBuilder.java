@@ -3,7 +3,7 @@ package com.example.repository.specification.impl;
 import static com.example.constants.ApplicationConstant.AUTHOR_KEY;
 import static com.example.constants.ApplicationConstant.TITLE_KEY;
 
-import com.example.config.dto.request.BookSearchParametersDto;
+import com.example.dto.request.BookSearchParametersDto;
 import com.example.entity.Book;
 import com.example.exception.InvalidProviderException;
 import com.example.repository.specification.SpecificationBuilder;

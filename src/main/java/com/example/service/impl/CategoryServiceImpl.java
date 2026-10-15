@@ -1,7 +1,7 @@
 package com.example.service.impl;
 
-import com.example.config.dto.request.CategoryRequestDto;
-import com.example.config.dto.response.CategoryResponseDto;
+import com.example.dto.request.CategoryRequestDto;
+import com.example.dto.response.CategoryResponseDto;
 import com.example.entity.Category;
 import com.example.mapper.CategoryMapper;
 import com.example.repository.CategoryRepository;
