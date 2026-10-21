@@ -40,6 +40,5 @@ public class ShoppingCart {
     private Set<CartItem> cartItems = new HashSet<>();
 
     @Column(nullable = false, columnDefinition = "TINYINT")
-    private boolean isDeleted = false;//TODO
-
+    private boolean isDeleted = false;
 }

@@ -13,7 +13,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
-
+    @Mapping(target = "categoryIds", ignore = true)
     BookResponseDto toDto(Book book);
 
     @Mapping(target = "id", ignore = true)
