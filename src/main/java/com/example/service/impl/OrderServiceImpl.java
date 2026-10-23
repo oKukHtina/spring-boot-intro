@@ -2,12 +2,14 @@ package com.example.service.impl;
 
 import com.example.dto.request.OrderRequestDto;
 import com.example.dto.request.StatusRequestDto;
+import com.example.dto.response.OrderItemResponseDto;
 import com.example.dto.response.OrderResponseDto;
 import com.example.entity.CartItem;
 import com.example.entity.Order;
 import com.example.entity.OrderItem;
 import com.example.entity.ShoppingCart;
 import com.example.entity.User;
+import com.example.mapper.OrderItemMapper;
 import com.example.mapper.OrderMapper;
 import com.example.repository.OrderItemRepository;
 import com.example.repository.OrderRepository;
@@ -34,12 +36,13 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemRepository orderItemRepository;
     private final ShoppingCartRepository shoppingCartRepository;
     private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
 
     @Override
     public Page<OrderResponseDto> getOrderHistory(Pageable pageable) {
         User currentUser = getCurrentUser();
 
-        return orderRepository.findAllByUserId(currentUser.getId(),pageable)
+        return orderRepository.findAllByUserId(currentUser.getId(), pageable)
                 .map(orderMapper::toDto);
     }
 
@@ -66,7 +69,6 @@ public class OrderServiceImpl implements OrderService {
         order.setTotal(total);
 
         orderRepository.save(order);
-        orderItemRepository.saveAll(orderItems);
         currentUserCart.getCartItems().clear();
 
         return orderMapper.toDto(order);
@@ -75,13 +77,34 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponseDto updateOrderStatus(Long id, StatusRequestDto statusRequestDto) {
         Order order = orderRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Order was not found")
+                () -> new EntityNotFoundException("Order was not found with id:" + id)
         );
 
         order.setStatus(statusRequestDto.status());
         orderRepository.save(order);
 
         return orderMapper.toDto(order);
+    }
+
+    @Override
+    public Page<OrderItemResponseDto> getAllOrderItems(Long orderId, Pageable pageable) {
+        User currentUser = getCurrentUser();
+        checkOrderOwnership(orderId, currentUser.getId());
+
+        return orderItemRepository.findAllByOrderId(orderId, pageable)
+                .map(orderItemMapper::toDto);
+    }
+
+    @Override
+    public OrderItemResponseDto getOrderItem(Long orderId, Long orderItemId) {
+        User currentUser = getCurrentUser();
+        checkOrderOwnership(orderId, currentUser.getId());
+
+        OrderItem orderItem = orderItemRepository.findByIdAndOrderId(orderItemId, orderId)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Order item not found")
+                );
+        return orderItemMapper.toDto(orderItem);
     }
 
     private User getCurrentUser() {
@@ -98,7 +121,8 @@ public class OrderServiceImpl implements OrderService {
         return shoppingCartRepository.findByUserId(currentUser.getId())
                 .orElseThrow(
                         () -> new EntityNotFoundException(
-                                "Shopping cart was not found"
+                                "Shopping cart was not found with id: "
+                                        + currentUser.getId()
                         )
                 );
     }
@@ -118,5 +142,15 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderItem -> orderItem.getPrice()
                         .multiply(BigDecimal.valueOf(orderItem.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private void checkOrderOwnership(Long orderId, Long userId) {
+        orderRepository.findByIdAndUserId(orderId, userId)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                "Order not found for the current user"
+                        )
+                );
+
     }
 }

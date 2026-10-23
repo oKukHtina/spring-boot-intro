@@ -4,7 +4,6 @@ import com.example.dto.request.OrderRequestDto;
 import com.example.dto.request.StatusRequestDto;
 import com.example.dto.response.OrderItemResponseDto;
 import com.example.dto.response.OrderResponseDto;
-import com.example.service.OrderItemService;
 import com.example.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final OrderItemService orderItemService;
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
@@ -82,7 +80,7 @@ public class OrderController {
             @PathVariable Long id,
             Pageable pageable
     ) {
-        return orderItemService.getAllOrderItems(id, pageable);
+        return orderService.getAllOrderItems(id, pageable);
     }
 
     @PreAuthorize("hasAuthority('USER')")
@@ -95,6 +93,6 @@ public class OrderController {
             @PathVariable("orderId") Long orderId,
             @PathVariable("orderItemId") Long orderItemId
     ) {
-        return orderItemService.getOrderItem(orderId, orderItemId);
+        return orderService.getOrderItem(orderId, orderItemId);
     }
 }
