@@ -1,4 +1,9 @@
 package com.example.dto.response;
 
-public record UserLoginResponseDto(String token) {
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public record UserLoginResponseDto(
+        @Schema(example = "token")
+        String token
+) {
 }
