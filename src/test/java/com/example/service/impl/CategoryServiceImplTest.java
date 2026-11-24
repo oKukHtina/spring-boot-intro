@@ -179,6 +179,7 @@ class CategoryServiceImplTest {
         Long categoryId = 2L;
 
         when(categoryRepository.existsById(categoryId)).thenReturn(true);
+
         categoryService.deleteById(categoryId);
 
         verify(categoryRepository).existsById(categoryId);
